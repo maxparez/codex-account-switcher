@@ -2,6 +2,7 @@ import { Args } from "@oclif/core";
 import prompts from "prompts";
 import { BaseCommand } from "../lib/base-command";
 import { NoAccountsSavedError, PromptCancelledError } from "../lib/accounts";
+import { isCodexDaemonRunning } from "../lib/codex-daemon";
 
 export default class UseCommand extends BaseCommand {
   static description = "Switch ~/.codex/auth.json to the selected account";
@@ -25,6 +26,15 @@ export default class UseCommand extends BaseCommand {
 
       const activated = await this.accounts.useAccount(account);
       this.log(`Switched Codex auth to "${activated}".`);
+
+      if (await isCodexDaemonRunning()) {
+        this.warn(
+          "The Codex app-server daemon is running and keeps the previous login in memory, " +
+            "so interactive `codex` still uses the old account (`codex exec` is not affected). " +
+            "Start Codex with `codex --no-daemon`, or run `codex app-server daemon restart` " +
+            "(disconnects its clients).",
+        );
+      }
     });
   }
 
