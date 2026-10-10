@@ -8,6 +8,7 @@ export {
   InvalidAccountNameError,
   NoAccountsSavedError,
   PromptCancelledError,
+  UnsavedActiveAuthError,
 } from "./errors";
 
 export const accountService = new AccountService();

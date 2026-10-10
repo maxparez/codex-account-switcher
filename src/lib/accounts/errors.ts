@@ -26,6 +26,15 @@ export class NoAccountsSavedError extends CodexAuthError {
   }
 }
 
+export class UnsavedActiveAuthError extends CodexAuthError {
+  constructor() {
+    super(
+      "The active ~/.codex/auth.json does not match any saved account. " +
+        'Run "codex-auth save <name>" first so its login is not lost.',
+    );
+  }
+}
+
 export class InvalidAccountNameError extends CodexAuthError {
   constructor() {
     super(
